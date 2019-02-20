@@ -80,12 +80,17 @@ Design and Assumptions
 These are the main classes used in this project:
 
 package - com.deloitte.casestudy.digitalawayday.activities
+
 class - Activities: To retreive the schedule of activities inluding number of teams by using given input data
 
+
 package - com.deloitte.casestudy.digitalawayday.file
+
 class - ReadInputFile: To read the input activities file from resources folder 
 
+
 package - com.deloitte.casestudy.digitalawayday.exception
+
 class - DigitalDayException: Custome exception thrown during execution when error occurs
 
 Assumptions - 
