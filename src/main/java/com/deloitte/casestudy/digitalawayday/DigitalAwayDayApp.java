@@ -8,7 +8,7 @@ import com.deloitte.casestudy.digitalawayday.file.ReadInputFile;
 
 
 /**
- * Main class/app. Reads the input file and generates the tasks list for teams
+ * Main class/app. Reads the input file and generates the activity list for teams
  * 
  */ 
 
@@ -19,10 +19,10 @@ public class DigitalAwayDayApp {
 		try 
 		{		
 			ReadInputFile file = new ReadInputFile();
-			List<String> tasksWithDuration = file.getTasksFromFile("activities.txt");
+			List<String> actWithDuration = file.getActivitesFromFile("activities.txt");
 			
 			Activities activityList = new Activities();
-			activityList.getList(tasksWithDuration);
+			activityList.getList(actWithDuration);
 			
 		} 
 		catch (DigitalDayException e) {

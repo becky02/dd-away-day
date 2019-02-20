@@ -16,7 +16,7 @@ public class ReadInputFileTest {
 		ReadInputFile file = new ReadInputFile();
 				
 		//No exception should come
-		file.getTasksFromFile(fileName);
+		file.getActivitesFromFile(fileName);
 	}
 	
 	@Test(expected = DigitalDayException.class)
@@ -27,8 +27,7 @@ public class ReadInputFileTest {
 		ReadInputFile file = new ReadInputFile();
 				
 		//Exception should come
-		file.getTasksFromFile(fileName);
-	
+		file.getActivitesFromFile(fileName);
 	}
 	
 }

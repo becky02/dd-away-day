@@ -19,10 +19,10 @@ public class Activities {
 	
 	private static final int SPRINT_MIN = 15;
 	
-	final static LocalTime startTime= LocalTime.of(9,0);
-	final static LocalTime lunchStartTime= LocalTime.of(12, 0);
-	final static LocalTime lunchFinsihTime= LocalTime.of(13, 0);
-	final static LocalTime finsihTime5pm= LocalTime.of(17, 0);
+	final static LocalTime START_TIME = LocalTime.of(9,0);
+	final static LocalTime LUNCH_START_TIME = LocalTime.of(12, 0);
+	final static LocalTime LUNCH_FINISH_TIME = LocalTime.of(13, 0);
+	final static LocalTime FINISH_TIME = LocalTime.of(17, 0);
 	
 	static LocalTime monitorTime;
 	static int COUNTER = 1;
@@ -30,45 +30,45 @@ public class Activities {
 	static Map<String, Map<String,String>> masterMap = new HashMap<>();
 	
 	/**
-	 * Method to generate a list of tasks from a file stored in resources
+	 * Method to generate a list of activities from a file stored in resources
 	 * 
-	 * @param taskList with duration
+	 * @param activityList with duration
 	 * @throws DigitalDayException 
 	 */
 
-	public void getList(List<String> tasksWithDuration) throws DigitalDayException 
+	public void getList(List<String> activitesWithDuration) throws DigitalDayException 
 	{		
-		monitorTime = startTime;
+		monitorTime = START_TIME;
 		Map<String,String> teamMap = new TreeMap<>();
 		
 		try 
 		{
-			for(String task: tasksWithDuration)
+			for(String task: activitesWithDuration)
 			{
 				LocalTime activityTime = planActivity(task);
 								
-				if(activityTime.isAfter(finsihTime5pm))
+				if(activityTime.isAfter(FINISH_TIME))
 				{
 		
-					teamMap.put(finsihTime5pm.toString(), "Staff Motivation Presentation");
+					teamMap.put(FINISH_TIME.toString(), "Staff Motivation Presentation");
 					masterMap.put("Team: " + COUNTER++, teamMap);
 					
 					teamMap = new TreeMap<>();
-					monitorTime =startTime;
+					monitorTime =START_TIME;
 					teamMap.put(planActivity(task).toString(), task);
 				}
 				else 
 				{
-					if(activityTime == lunchFinsihTime)
+					if(activityTime == LUNCH_FINISH_TIME)
 					{
-						teamMap.put(lunchStartTime.toString(), "Lunch Break 60min");	
+						teamMap.put(LUNCH_START_TIME.toString(), "Lunch Break 60min");	
 					}
 					
 					teamMap.put(activityTime.toString(), task);
 					
 				}
 				
-				teamMap.putIfAbsent(finsihTime5pm.toString(), "Staff Motivation Presentation");
+				teamMap.putIfAbsent(FINISH_TIME.toString(), "Staff Motivation Presentation");
 			}
 			
 			masterMap.putIfAbsent("Team: " + COUNTER++, teamMap);
@@ -97,17 +97,17 @@ public class Activities {
 	}
 	
 	/**
-	 * Method to generate timings for each task in a team
+	 * Method to generate timings for each activity in a team
 	 * 
-	 * @param each task with corresponding duration
+	 * @param each activity with corresponding duration
 	 * @return local time for each task
 	 * @throws DigitalDayException 
 	 */
-	public LocalTime planActivity(String taskNameWithDuration) throws DigitalDayException
+	public LocalTime planActivity(String activityNameWithDuration) throws DigitalDayException
 	{
 		long activityDuration = 0;
 		
-		String[] splitString = taskNameWithDuration.split("\\s+");
+		String[] splitString = activityNameWithDuration.split("\\s+");
 		String durationString = splitString[splitString.length - 1];
 		
 		if(Character.isDigit(durationString.charAt(0)))   
@@ -124,26 +124,26 @@ public class Activities {
 		else if(durationString.equals("sprint"))
 			activityDuration = SPRINT_MIN;
 		else
-			throw new DigitalDayException("\nActivities:planActiivty: No duration or invalid duration found for task: " + taskNameWithDuration);
+			throw new DigitalDayException("\nActivities:planActiivty: No duration or invalid duration found for task: " + activityNameWithDuration);
 			
 		
 		if (activityDuration <=0 || activityDuration > 60){
-			throw new DigitalDayException("\nActivities:planActiivty: Invalid task duration found: " + taskNameWithDuration);
+			throw new DigitalDayException("\nActivities:planActiivty: Invalid task duration found: " + activityNameWithDuration);
 		}
 		
 		LocalTime returnTime = monitorTime;
 		
-		if(monitorTime.plusMinutes(activityDuration).isAfter(finsihTime5pm))
+		if(monitorTime.plusMinutes(activityDuration).isAfter(FINISH_TIME))
 		{
 			return monitorTime.plusMinutes(activityDuration);
 		}
 		
-		if(monitorTime.plusMinutes(activityDuration).isAfter(lunchStartTime) && monitorTime.plusMinutes(activityDuration).isBefore(lunchFinsihTime))
+		if(monitorTime.plusMinutes(activityDuration).isAfter(LUNCH_START_TIME) && monitorTime.plusMinutes(activityDuration).isBefore(LUNCH_FINISH_TIME))
 		{
-			monitorTime = lunchFinsihTime;
+			monitorTime = LUNCH_FINISH_TIME;
 			monitorTime = monitorTime.plusMinutes(activityDuration);
 			
-			return lunchFinsihTime;
+			return LUNCH_FINISH_TIME;
 		}
 		
 		monitorTime = monitorTime.plusMinutes(activityDuration);

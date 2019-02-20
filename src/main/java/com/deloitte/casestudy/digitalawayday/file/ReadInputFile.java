@@ -21,13 +21,13 @@ public class ReadInputFile {
 	 * Method to generate a list of tasks from a file stored in resources
 	 * 
 	 * @param fileName File name in resources
-	 * @return List of tasks and duration
+	 * @return List of activities and duration
 	 * @throws DigitalDayException
 	 */
 	
-	public List<String> getTasksFromFile(String fileName) throws DigitalDayException {
+	public List<String> getActivitesFromFile(String fileName) throws DigitalDayException {
 		
-		List<String> tasksList = new ArrayList<>();
+		List<String> actList = new ArrayList<>();
 		
 		try 
 		{			
@@ -36,16 +36,16 @@ public class ReadInputFile {
 			Stream<String> fileLines;
 			fileLines = Files.lines(path);
 			
-			tasksList = fileLines.collect(Collectors.toList());
+			actList = fileLines.collect(Collectors.toList());
 			
 			fileLines.close();
 		} 
 		catch (Exception e) {
 			
-			throw new DigitalDayException("ReadInputFile:getTasksFromFile: Problem reading from file:" + e.getLocalizedMessage());
+			throw new DigitalDayException("ReadInputFile:getActivitesFromFile: Problem reading from file:" + e.getLocalizedMessage());
 		}
 		
-		return tasksList;
+		return actList;
 	}
 
 }
